@@ -1,0 +1,1 @@
+/usr/bin/gcc  -O3 -g CMakeFiles/run_c_exec.dir/src/cpp/run.c.o -o run_c_exec  -lm

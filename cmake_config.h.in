@@ -1,0 +1,4 @@
+#pragma once
+#define RESULTS_DIR "@RESULTS_DIR@"
+#define DATATYPE "@DATATYPE@"
+#define BITS "@BITS@"

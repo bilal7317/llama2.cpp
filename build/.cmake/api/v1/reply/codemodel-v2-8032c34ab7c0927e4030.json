@@ -1,0 +1,114 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"jsonFile" : "directory-.-Debug-f5ebdc15457944623624.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.10"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4,
+						5,
+						6
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "llama2_cpp",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4,
+						5,
+						6
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "custom_exec::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-custom_exec-Debug-63569add9c945beee002.json",
+					"name" : "custom_exec",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "full_run::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-full_run-Debug-cde19ff9308951d2b1cb.json",
+					"name" : "full_run",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "run_analysis::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-run_analysis-Debug-98f258cefcef931a7cd7.json",
+					"name" : "run_analysis",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "run_c_exec::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-run_c_exec-Debug-621a56854500d18599fd.json",
+					"name" : "run_c_exec",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "run_exec::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-run_exec-Debug-036b9fefdef9b3f5e97c.json",
+					"name" : "run_exec",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "run_model::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-run_model-Debug-0a1558533ac6bf82cecc.json",
+					"name" : "run_model",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "update_cmake_config::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-update_cmake_config-Debug-fa9570ebc3d7bbce6006.json",
+					"name" : "update_cmake_config",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "/home/bilal-linux/Research/llama2.cpp/build",
+		"source" : "/home/bilal-linux/Research/llama2.cpp"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 8
+	}
+}

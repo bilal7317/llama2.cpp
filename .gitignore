@@ -1,4 +1,4 @@
 # Ignore large output files
-output_float32.txt
-output_float_12_bit.txt
-out/model.bin
+/build/Results/Analysis_float_12/Stats_float_12_bits.txt
+/home/bilal-linux/Research/llama2.cpp/build/Results/Analysis_float_12/Stats_float_12_bits.txt
+/home/bilal-linux/Research/llama2.cpp/src/model/model.bin

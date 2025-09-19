@@ -1,0 +1,20 @@
+[
+{
+  "directory": "/home/bilal-linux/Research/llama2.cpp/build",
+  "command": "/usr/bin/g++    -O3 -g -std=gnu++17 -o CMakeFiles/run_exec.dir/src/cpp/run.cpp.o -c /home/bilal-linux/Research/llama2.cpp/src/cpp/run.cpp",
+  "file": "/home/bilal-linux/Research/llama2.cpp/src/cpp/run.cpp",
+  "output": "CMakeFiles/run_exec.dir/src/cpp/run.cpp.o"
+},
+{
+  "directory": "/home/bilal-linux/Research/llama2.cpp/build",
+  "command": "/usr/bin/g++    -O3 -g -std=gnu++17 -o CMakeFiles/custom_exec.dir/src/cpp/custom.cpp.o -c /home/bilal-linux/Research/llama2.cpp/src/cpp/custom.cpp",
+  "file": "/home/bilal-linux/Research/llama2.cpp/src/cpp/custom.cpp",
+  "output": "CMakeFiles/custom_exec.dir/src/cpp/custom.cpp.o"
+},
+{
+  "directory": "/home/bilal-linux/Research/llama2.cpp/build",
+  "command": "/usr/bin/gcc    -O3 -g -o CMakeFiles/run_c_exec.dir/src/cpp/run.c.o -c /home/bilal-linux/Research/llama2.cpp/src/cpp/run.c",
+  "file": "/home/bilal-linux/Research/llama2.cpp/src/cpp/run.c",
+  "output": "CMakeFiles/run_c_exec.dir/src/cpp/run.c.o"
+}
+]

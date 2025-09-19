@@ -1,0 +1,7 @@
+{
+	"InstallScripts" : 
+	[
+		"/home/bilal-linux/Research/llama2.cpp/build/cmake_install.cmake"
+	],
+	"Parallel" : false
+}
