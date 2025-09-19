@@ -1,0 +1,4 @@
+# Ignore large output files
+output_float32.txt
+output_float_12_bit.txt
+out/model.bin
