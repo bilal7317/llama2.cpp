@@ -4,7 +4,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-# --- Load configuration ---
+# --- Load configuration test---
 config = {}
 with open("config.txt", "r") as cfg:
     for line in cfg:
