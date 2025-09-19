@@ -1,0 +1,6 @@
+results_dir=Results
+datatype=float
+bits=12
+exclude_zeros=True
+threshold=5.0
+

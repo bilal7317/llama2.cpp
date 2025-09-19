@@ -1,0 +1,13 @@
+Basic Statistics:
+Count           : 9289728
+Mean            : 0.01407241
+Median          : 0.00230522
+Standard Dev.   : 0.73604108
+Min             : -5.00000000
+Max             : 5.00000000
+Range           : 10.00000000
+25th Percentile : -0.25706662
+75th Percentile : 0.28170873
+IQR             : 0.53877535
+Skewness        : -0.01222217
+Kurtosis        : 10.39337900

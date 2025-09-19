@@ -5,9 +5,60 @@
 #include <iostream>
 #include <string>
 
+#include <map>
+#include <iomanip>  // for std::setprecision
+
+//typedef std::vector<float> tensor1d;
+//typedef std::vector<__fp16> tensor1d;
+//typedef std::vector<uint16_t> tensor1d;
+float simulate_fp16(float x) {
+    x = std::max(-5.0f, std::min(5.0f, x));
+
+    
+    uint32_t bits = *reinterpret_cast<uint32_t*>(&x);
+    
+    
+// Data Collection
+	bits &= 0xFFF00000; // truncate mantissa to ~10 bits
+	
+	std::ofstream file("output.txt", std::ios::app);  // Save to .txt file
+	if (file.is_open()) {
+	    //float original = *reinterpret_cast<float*>(&bits);
+	    file << std::fixed << std::setprecision(8) << x << ",";  // Comma-separated
+	    file.close();
+	} else {
+	    std::cerr << "Failed to open TXT file.\n";
+	}
+
+ 
+    
+    //bits &= 0xFFF00000; // truncate mantissa to ~10 bits
+    
+    
+    // 8FE00000
+    // bits &= 0xFFFFE000; // truncate mantissa to ~10 bits
+    return *reinterpret_cast<float*>(&bits);
+}
+
+
 typedef std::vector<float> tensor1d;
 typedef std::vector<tensor1d> tensor2d;
 typedef std::vector<tensor2d> tensor3d;
+
+
+
+void simulate_fp16_tensor(tensor1d& t) {
+    for (float& val : t) val = simulate_fp16(val);
+}
+
+void simulate_fp16_tensor(tensor2d& t) {
+    for (tensor1d& row : t) simulate_fp16_tensor(row);
+}
+
+void simulate_fp16_tensor(tensor3d& t) {
+    for (tensor2d& mat : t) simulate_fp16_tensor(mat);
+}
+
 
 float EPS = 1e-5;
 
@@ -93,7 +144,8 @@ void free_state_tensors(RunState &state) {
     state.value_cache.clear();
 }
 
-void resize_weights_tensors(TransformerWeights &weights, Config &config) {
+void resize_weights_tensors(TransformerWeights &weights, Config &config) 
+{
     tensor2d(config.vocab_size, tensor1d(config.dim)).swap(weights.token_embedding_table);
     tensor2d(config.n_layers, tensor1d(config.dim)).swap(weights.rms_att_weight);
     tensor2d(config.n_layers, tensor1d(config.dim)).swap(weights.rms_ffn_weight);
@@ -108,6 +160,25 @@ void resize_weights_tensors(TransformerWeights &weights, Config &config) {
     int head_size = config.dim / config.n_heads;
     tensor2d(config.seq_len, tensor1d(head_size / 2)).swap(weights.freq_cis_real);
     tensor2d(config.seq_len, tensor1d(head_size / 2)).swap(weights.freq_cis_imag);
+
+    bool simulate_fp16_mode = true;
+    if (simulate_fp16_mode) 
+	{
+	    simulate_fp16_tensor(weights.wq);
+	    simulate_fp16_tensor(weights.wk);
+	    simulate_fp16_tensor(weights.wv);
+	    simulate_fp16_tensor(weights.wo);
+	    simulate_fp16_tensor(weights.w1);  // ✅ correct name
+	    simulate_fp16_tensor(weights.w2);  // ✅ correct name
+	    simulate_fp16_tensor(weights.w3);  // ✅ correct name
+	    simulate_fp16_tensor(weights.token_embedding_table);
+	    simulate_fp16_tensor(weights.rms_att_weight);
+	    simulate_fp16_tensor(weights.rms_ffn_weight);
+	    simulate_fp16_tensor(weights.rms_final_weight);
+	    // simulate_fp16_tensor(weights.wcls); ❌ remove or define if needed
+	}
+
+
 }
 
 void free_weights_tensors(TransformerWeights &weights) {
@@ -218,16 +289,24 @@ void transformer(int token_index, int token_position, Config &config, RunState &
 
     // copy the token embedding into x
     copy(state.x, transformer_weights.token_embedding_table[token_index]);
-
+    
+    simulate_fp16_tensor(state.x);
+    
     for (int layer = 0; layer < config.n_layers; ++layer) {
         // attention rmsnorm
         rmsnorm(state.xb, state.x, transformer_weights.rms_att_weight[layer]);
 
         // attention
         matmul(state.q, state.xb, transformer_weights.wq[layer]);
+        
+        simulate_fp16_tensor(state.q);
         matmul(state.k, state.xb, transformer_weights.wk[layer]);
+        
+        simulate_fp16_tensor(state.k);
         matmul(state.v, state.xb, transformer_weights.wv[layer]);
-
+        
+        simulate_fp16_tensor(state.v);
+	
         // apply RoPE positional embeddings
         for (int head = 0; head < config.n_heads; ++head) {
             int start = head * head_size;
@@ -272,7 +351,7 @@ void transformer(int token_index, int token_position, Config &config, RunState &
 
         // final matmul to get the output of the attention
         matmul(state.xb2, state.xb, transformer_weights.wo[layer]);
-
+	simulate_fp16_tensor(state.xb2);
         // residual connection back into x
         accum(state.x, state.xb2);
 
@@ -282,8 +361,10 @@ void transformer(int token_index, int token_position, Config &config, RunState &
         // Now for FFN in PyTorch we have: self.w2(F.silu(self.w1(x))) * self.w3(x)
         // first calculate self.w1(x) and self.w3(x)
         matmul(state.hb, state.xb, transformer_weights.w1[layer]);
+        simulate_fp16_tensor(state.hb);
         matmul(state.hb2, state.xb, transformer_weights.w3[layer]);
-
+	simulate_fp16_tensor(state.hb2);
+	
         // F.silu; silu(x)=x*σ(x), where σ(x) is the logistic sigmoid
         for (int i = 0; i < hidden_dim; ++i)
             state.hb[i] = state.hb[i] * (1.0 / (1.0 + std::exp(-state.hb[i])));
@@ -294,7 +375,8 @@ void transformer(int token_index, int token_position, Config &config, RunState &
         
         // final matmul to get the output of the ffn
         matmul(state.xb, state.hb, transformer_weights.w2[layer]);
-
+	simulate_fp16_tensor(state.xb);
+	
         // residual connection
         accum(state.x, state.xb);
     }
@@ -351,6 +433,13 @@ int main(int argc, char *argv[]) {
     if (argc >= 3)
         temperature = std::atof(argv[2]);
 
+// Edit
+std::ifstream fin("out/model.bin", std::ios::binary);
+uint32_t magic;
+fin.read(reinterpret_cast<char*>(&magic), sizeof(magic));
+std::cout << "Magic number: " << magic << "\n";
+
+
     Config config;
     TransformerWeights transformer_weights;
     {
@@ -361,6 +450,18 @@ int main(int argc, char *argv[]) {
         }
         // read file contents to config
         file.read((char*)&config, sizeof(config));
+// Edit
+        std::cout << "dim: " << config.dim << "\n";
+	std::cout << "hidden_dim: " << config.hidden_dim << "\n";
+	std::cout << "n_layers: " << config.n_layers << "\n";
+	std::cout << "n_heads: " << config.n_heads << "\n";
+	
+	if (config.dim > 4096 || config.hidden_dim > 8192 || config.n_layers > 100 || 			config.n_heads > 64) {
+    		std::cerr << "Config values are suspiciously large. Aborting.\n";
+    		exit(1);
+	}
+
+
         resize_weights_tensors(transformer_weights, config);
         checkpoint_init_weights(transformer_weights, config, file);
         file.close();
