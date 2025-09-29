@@ -70,7 +70,7 @@ CMakeFiles/full_run: run_exec
 	python3 /home/bilal-linux/Research/llama2.cpp/update_cmake_config.py
 	/opt/cmake/bin/cmake ..
 	/home/bilal-linux/Research/llama2.cpp/build/run_exec /home/bilal-linux/Research/llama2.cpp/src/model/model.bin
-	python3 /home/bilal-linux/Research/llama2.cpp/src/python/analysis/analysis.py --input /home/bilal-linux/Research/llama2.cpp/Results/output_float_12_bit.txt --config /home/bilal-linux/Research/llama2.cpp/configs/config.txt
+	python3 /home/bilal-linux/Research/llama2.cpp/src/python/analysis/analysis.py --input /home/bilal-linux/Research/llama2.cpp/Results/output_float_16_bit.txt --config /home/bilal-linux/Research/llama2.cpp/configs/config.txt
 
 CMakeFiles/full_run.dir/codegen:
 .PHONY : CMakeFiles/full_run.dir/codegen

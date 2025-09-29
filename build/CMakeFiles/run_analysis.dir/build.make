@@ -67,7 +67,7 @@ include CMakeFiles/run_analysis.dir/compiler_depend.make
 include CMakeFiles/run_analysis.dir/progress.make
 
 CMakeFiles/run_analysis:
-	python3 /home/bilal-linux/Research/llama2.cpp/src/python/analysis/analysis.py --input /home/bilal-linux/Research/llama2.cpp/Results/output_float_12_bit.txt --config /home/bilal-linux/Research/llama2.cpp/configs/config.txt
+	python3 /home/bilal-linux/Research/llama2.cpp/src/python/analysis/analysis.py --input /home/bilal-linux/Research/llama2.cpp/Results/output_float_16_bit.txt --config /home/bilal-linux/Research/llama2.cpp/configs/config.txt
 
 CMakeFiles/run_analysis.dir/codegen:
 .PHONY : CMakeFiles/run_analysis.dir/codegen
